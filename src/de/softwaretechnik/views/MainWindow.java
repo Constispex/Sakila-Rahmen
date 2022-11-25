@@ -29,7 +29,6 @@ public class MainWindow extends Frame {
 	private final Checkbox _PUBLISHEDCHECK;
 
 	public static final String CATEGORY_SUBMIT = "CATEGORY_SUBMIT";
-//wddw
 
 	private MainWindow() {
 		setTitle(Program.APP_TITLE + " [" + Program.APP_V + "]");
