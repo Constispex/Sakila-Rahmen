@@ -8,8 +8,9 @@ import java.awt.event.*;
 
 public class MainWindowController extends WindowAdapter implements IMainListener {
 
-    private MainWindow window;
-    private Model model;
+    private final MainWindow window;
+    private final Model model;
+
 
     public MainWindowController(MainWindow mw, Model m) {
         window = mw;
@@ -27,6 +28,7 @@ public class MainWindowController extends WindowAdapter implements IMainListener
     }
 
     public void exitProgram(){
+        System.out.println("Should close...");
         window.dispose();
         System.exit(0);
     }
@@ -52,13 +54,9 @@ public class MainWindowController extends WindowAdapter implements IMainListener
     public void windowOpened(WindowEvent e) {
          window.createGUI();
     }
-
-
-
-
     @Override
-    public void windowClosing(WindowEvent e){
-      exitProgram();
+    public void windowClosing(WindowEvent e) {
+        exitProgram();
     }
     // ---------------------------------------------------------------------------
 
