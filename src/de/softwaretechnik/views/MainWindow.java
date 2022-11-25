@@ -26,7 +26,7 @@ public class MainWindow extends Frame {
 	private final Choice _CATEGORYBOX = new Choice();
 	private final Checkbox _LENGTHCHECK = new Checkbox();
 	private final Checkbox _PUBLISHEDCHECK = new Checkbox();
-
+//wddw
 
 	private MainWindow() {
 		setTitle(Program.APP_TITLE + " [" + Program.APP_V + "]");
