@@ -27,6 +27,7 @@ public class MainWindow extends Frame {
 		setTitle(Program.APP_TITLE + " [" + Program.APP_V + "]");
 		setSize(400,400);
 
+
 		createGUI();
 	}
 

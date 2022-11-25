@@ -30,14 +30,8 @@ public class DBModel {
         return instance;
     }
 
-
     Movie[] getCinemaMovies(){
-        try {
-            ResultSet rs = statement.executeQuery("SELECT * FROM film");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+        return null; // TODO SQL Query
     }
 
     Category[] getCinemaCategories(){
@@ -46,12 +40,21 @@ public class DBModel {
 
     Movie[] getMoviesByCategorie(Category catObject){
         return null; // TODO SQL Query
-
     }
 
     Movie[] getMoviesByName(String pattern){
         return null; // TODO SQL Query
-
     }
+
+    Movie[] getAll(){
+        try {
+            ResultSet rs = statement.executeQuery("SELECT * FROM film");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
 
 }
