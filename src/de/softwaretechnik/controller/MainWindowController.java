@@ -2,13 +2,14 @@ package de.softwaretechnik.controller;
 
 import de.softwaretechnik.interfaces.DBInterface;
 import de.softwaretechnik.interfaces.IMainListener;
-import de.softwaretechnik.newModels.NewCategory;
-import de.softwaretechnik.newModels.NewMovie;
+import de.softwaretechnik.models.Category;
+import de.softwaretechnik.models.Movie;
 import de.softwaretechnik.views.MainWindow;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainWindowController extends WindowAdapter implements IMainListener {
@@ -16,8 +17,8 @@ public class MainWindowController extends WindowAdapter implements IMainListener
     private final MainWindow window;
     private final DBInterface model;
 
-    private NewMovie[] _activeMovies;
-    private NewCategory[] _activeCategories;
+    private Movie[] _activeMovies;
+    private Category[] _activeCategories;
 
 
     public MainWindowController(MainWindow mw, DBInterface m) {
@@ -33,15 +34,20 @@ public class MainWindowController extends WindowAdapter implements IMainListener
 
     // ---------------------------------------------------------------------------
     // Controller Methods
+    @Override
     public void startProgram(){
         init();
         window.setVisible(true);
     }
-
+    @Override
     public void exitProgram(){
         window.dispose();
         System.exit(0);
     }
+
+    /**
+     * Retrieves the initial values from the database, stores them and provides them to the view.
+     */
     private void init(){
         _activeCategories = model.getCinemaCategories();
         _activeMovies = model.getCinemaMovies();
@@ -86,11 +92,12 @@ public class MainWindowController extends WindowAdapter implements IMainListener
     @Override
     public void textValueChanged(TextEvent e) {
         int minChars = 4;
-        if(e.getSource() instanceof TextField){
-            TextField thisField = (TextField) e.getSource();
+        if(e.getSource() instanceof TextField thisField){
+            window.resetCategorySelection();
             if(thisField.getText().length() >= minChars){
-                window.resetCategorySelection();
                 _activeMovies = model.getMoviesByName(thisField.getText());
+            } else {
+                _activeMovies = model.getCinemaMovies();
             }
             window.updateFilmList(buildMovieList(_activeMovies));
         }
@@ -101,10 +108,10 @@ public class MainWindowController extends WindowAdapter implements IMainListener
     }
     // ---------------------------------------------------------------------------
 
-    private List<String> buildMovieList(NewMovie[] activeMovies) {
+    private List<String> buildMovieList(Movie[] activeMovies) {
         List<String> stringified = new ArrayList<>();
         StringBuilder sB = new StringBuilder();
-        for (NewMovie movie: activeMovies) {
+        for (Movie movie: activeMovies) {
             sB.append(movie.title());
             if(window.isDateActive()){
                 sB.append(String.format(" (%s)",movie.releaseYear()));
@@ -118,16 +125,16 @@ public class MainWindowController extends WindowAdapter implements IMainListener
         return stringified;
     }
 
-    private List<String> buildCategoryBox(NewCategory[] activeCategories) {
+    private List<String> buildCategoryBox(Category[] activeCategories) {
         List<String> stringified = new ArrayList<>();
-        for(NewCategory cat : activeCategories){
+        for(Category cat : activeCategories){
             stringified.add(cat.name());
         }
         return stringified;
     }
 
-    private String getDescriptionFromMovie(NewMovie selected){
-        return selected.description();
+    private String getDescriptionFromMovie(Movie selected){
+        return String.format("Description:%n%s%n%nCast:%n%s%n%nCategories:%n%s", selected.description(), Arrays.toString(selected.actors()), Arrays.toString(selected.categories()));
     }
 
 

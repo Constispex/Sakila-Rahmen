@@ -1,19 +1,24 @@
-package de.softwaretechnik.newModels;
+package de.softwaretechnik.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for building a movie.
+ * Once built the movie cannot be changed.
+ * Provides methods to fill the arrays.
+ */
 public class MovieBuilder{
     private int id = -1;
-    private String title = "";
-    private String description = "";
+    private String title = "No title";
+    private String description = "No description";
     private int release = -1;
     private int length = -1;
-    private List<NewActor> actors = new ArrayList<>();
-    private List<NewCategory> categories = new ArrayList<>();
+    private List<Actor> actors = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
-    NewMovie build(){
-        return new NewMovie(id, title, description, release, length, actors.toArray(NewActor[]::new), categories.toArray(NewCategory[]::new));
+    Movie build(){
+        return new Movie(id, title, description, release, length, actors.toArray(Actor[]::new), categories.toArray(Category[]::new));
     }
 
     public MovieBuilder setID (int id){
@@ -40,20 +45,20 @@ public class MovieBuilder{
         return this;
     }
 
-    public MovieBuilder setActors(List<NewActor> actors) {
+    public MovieBuilder setActors(List<Actor> actors) {
         this.actors = actors;
         return this;
     }
 
-    public MovieBuilder setCategories(List<NewCategory> categories) {
+    public MovieBuilder setCategories(List<Category> categories) {
         this.categories = categories;
         return this;
     }
-    public MovieBuilder addActor(NewActor actor){
+    public MovieBuilder addActor(Actor actor){
         actors.add(actor);
         return this;
     }
-    public MovieBuilder addCategory(NewCategory category){
+    public MovieBuilder addCategory(Category category){
         categories.add(category);
         return this;
     }

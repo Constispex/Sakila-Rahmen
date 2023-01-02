@@ -1,11 +1,11 @@
 package de.softwaretechnik.interfaces;
 
-import de.softwaretechnik.newModels.NewCategory;
-import de.softwaretechnik.newModels.NewMovie;
+import de.softwaretechnik.models.Category;
+import de.softwaretechnik.models.Movie;
 
 public interface DBInterface {
-    NewCategory[] getCinemaCategories();
-    NewMovie[] getCinemaMovies();
-    NewMovie[] getMoviesByCategory(NewCategory category);
-    NewMovie[] getMoviesByName(String pattern);
+    Category[] getCinemaCategories();
+    Movie[] getCinemaMovies();
+    Movie[] getMoviesByCategory(Category category);
+    Movie[] getMoviesByName(String pattern);
 }

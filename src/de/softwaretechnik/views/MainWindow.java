@@ -20,10 +20,9 @@ public class MainWindow extends Frame {
 	public static MainWindow getInstance(){
 		return window;
 	}
-	private int WIDTH;
-	private int HEIGHT;
+	private final int WIDTH;
+	private final int HEIGHT;
 	// GUI Elements
-	private MenuBar _menuBar;
 	private final List _FILMLIST;
 	private final TextArea _DESCRIPTION;
 	private final Choice _CATEGORYBOX;
@@ -44,14 +43,14 @@ public class MainWindow extends Frame {
 		setResizable(false);
 
 		_FILMLIST = new List();
-		_DESCRIPTION = new TextArea();
+		_DESCRIPTION = new TextArea("Description",6, 40,TextArea.SCROLLBARS_VERTICAL_ONLY);
 		_DESCRIPTION.setFocusable(false);
 		_CATEGORYBOX = new Choice();
 		_CAT_SUBMIT = new Button();
 		_CAT_SUBMIT.setLabel("Submit");
 		_LENGTHCHECK = new Checkbox();
 		_PUBLISHEDCHECK = new Checkbox();
-		_SEARCHFIELD = new TextField();
+		_SEARCHFIELD = new TextField("",40);
 		_SEARCHLABEL = new Label("Search...");
 
 		createGUI();
@@ -61,7 +60,6 @@ public class MainWindow extends Frame {
 	 * Sets the layout of every Component of the GUI.
 	 */
 	private void createGUI(){
-		setMenuBar(createMainMenu());
 		GridBagLayout lm = new GridBagLayout();
 		GridBagConstraints con = new GridBagConstraints();
 		setLayout(lm);
@@ -74,50 +72,43 @@ public class MainWindow extends Frame {
 		con.gridwidth = 1;
 		lm.setConstraints(_CATEGORYBOX, con);
 		this.add(_CATEGORYBOX);
+
 		con.gridy = 1;
 		lm.setConstraints(_CAT_SUBMIT, con);
 		this.add(_CAT_SUBMIT);
+
 		con.gridx = 1;
 		con.gridy = 0;
 		lm.setConstraints(_LENGTHCHECK, con);
 		this.add(_LENGTHCHECK);
+
 		con.gridy = 1;
 		lm.setConstraints(_PUBLISHEDCHECK, con);
 		this.add(_PUBLISHEDCHECK);
+
 		con.gridy = 2;
 		con.gridx = 0;
 		con.gridwidth = 1;
 		lm.setConstraints(_SEARCHLABEL, con);
-		_SEARCHLABEL.setMaximumSize(new Dimension(WIDTH*1/3, 25));
 		this.add(_SEARCHLABEL);
+
 		con.gridy = 2;
 		con.gridx = 1;
 		con.gridwidth = 2;
 		lm.setConstraints(_SEARCHFIELD, con);
-		_SEARCHFIELD.setMinimumSize(new Dimension(WIDTH*2/3, 25));
 		this.add(_SEARCHFIELD);
+
 		con.gridy = 3;
 		con.gridx = 0;
 		con.gridwidth = 1;
 		lm.setConstraints(_FILMLIST, con);
-		_FILMLIST.setMinimumSize(new Dimension(WIDTH/3, HEIGHT/2));
 		this.add(_FILMLIST);
+
 		con.gridy = 3;
 		con.gridx = 1;
 		con.gridwidth = 1;
 		lm.setConstraints(_DESCRIPTION, con);
-		_DESCRIPTION.setMinimumSize(new Dimension(WIDTH*2/3, HEIGHT/2));
 		this.add(_DESCRIPTION);
-	}
-
-
-	private MenuBar createMainMenu(){
-		_menuBar = new MenuBar();
-		Menu menuProgram = new Menu("Program");
-		menuProgram.add(new MenuItem("Beenden"));
-
-		_menuBar.add(menuProgram);
-		return _menuBar;
 	}
 
 	//--------------------------------------------------------------
@@ -144,13 +135,18 @@ public class MainWindow extends Frame {
 	public String getSelectedCategoryByName() {
 		return _CATEGORYBOX.getSelectedItem();
 	}
+
+	/**
+	 * Returns the ID of the selected category from the combobox (according to the placement within the combobox).
+	 * @return index
+	 */
 	public int getSelectedCategoryByID() {
 		return _CATEGORYBOX.getSelectedIndex();
 	}
 
 	/**
 	 * Dynamic change of categories displayed in the Choice/Combobox.
-	 * @param categories
+	 * @param categories list of categories that shall be displayed
 	 */
 	public void updateCategoryBox(java.util.List<String> categories) {
 		_CATEGORYBOX.removeAll();
@@ -169,19 +165,41 @@ public class MainWindow extends Frame {
 		from.forEach(_FILMLIST::add);
 		update(getGraphics());
 	}
+
+	/**
+	 * Removes the existing text in the description area and fills it with the given.
+	 * @param description new discription that shall be displayed
+	 */
 	public void updateDescription(String description){
 		_DESCRIPTION.setText(description);
 	}
+
+	/**
+	 * Clears the TextField of the Searchbar.
+	 */
 	public void resetSearch(){
 		_SEARCHFIELD.setText("");
 	}
+
+	/**
+	 * Resets the Combo-Selector to the initial value (0-All).
+	 */
 	public void resetCategorySelection(){
 		_CATEGORYBOX.select(0);
 	}
 
+	/**
+	 * Returns the state of the Length checkbox.
+	 * @return true, if length shall be displayed (checkbox is ticked), else false
+	 */
 	public boolean isLengthActive(){
 		return this._LENGTHCHECK.getState();
 	}
+
+	/**
+	 * Return the state of the release date checkbox.
+	 * @return true, if date shall be displayed (checkbox is ticked), else false
+	 */
 	public boolean isDateActive(){
 		return this._PUBLISHEDCHECK.getState();
 	}

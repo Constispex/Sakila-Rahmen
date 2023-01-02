@@ -1,12 +1,18 @@
 package de.softwaretechnik.models;
 
-public class Actor {
-
-    String actor_id;
-    String film_id;
-    String last_update;
-
-
-    public Actor() {
+/**
+ * Model of Actor according to the needs within the program.
+ * @param actorID ID according to the database
+ * @param firstName first name
+ * @param lastName last name
+ */
+public record Actor(
+        int actorID,
+        String firstName,
+        String lastName
+) {
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }
