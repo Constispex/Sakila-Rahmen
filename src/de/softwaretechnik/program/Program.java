@@ -15,10 +15,10 @@ public class Program {
 	public static final float APP_V = 0.1F;
 	public static final String DBCON = "jdbc:mysql://localhost/sakila";
 
-	public static void main(String[] args) throws SQLException  {
+	public static void main(String[] args) {
 
 		// lose Kopplung von GUI und Datenmodel
-		Model model = new Model();
+		DBModel model = DBModel.getInstance();
 		MainWindow mw = MainWindow.getInstance();
 
 		MainWindowController mc = new MainWindowController(mw, model);

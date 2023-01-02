@@ -1,5 +1,6 @@
 package de.softwaretechnik.models;
 
+import de.softwaretechnik.interfaces.DBInterface;
 import de.softwaretechnik.program.Program;
 
 import java.sql.*;
@@ -13,11 +14,11 @@ import java.util.Scanner;
     DB Modell als Singelton
  */
 
-public class DBModel {
+public class DBModel implements DBInterface {
 
     private static DBModel instance = new DBModel();
-    private static Connection connection;
-    private static Statement statement;
+    private Connection connection;
+    private Statement statement;
     private Movie[] movie;
     private Category[] category;
 
@@ -28,13 +29,11 @@ public class DBModel {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     public static void main(String[] args) {
         DBModel dbModel = new DBModel();
-        Movie[] arr = dbModel.getMoviesByCategorie();
+        Movie[] arr = dbModel.getCinemaMovies();
 
         for (Movie m: arr) {
             System.out.println(m.toString());
@@ -44,18 +43,24 @@ public class DBModel {
     public static DBModel getInstance(){
         return instance;
     }
-
-    Movie[] getCinemaMovies(){
+    public Category[] getCinemaCategories(){
+        return new Category[0]; // TODO SQL Query
+    }
+    @Override
+    public Movie[] getCinemaMovies(){
         String sql = "SELECT title FROM film";
         return executeQuery(sql);
     }
 
-    Category[] getCinemaCategories(){
-        return null; // TODO SQL Query
+    public Movie[] getMoviesByName(String pattern) {
+        String sql = "SELECT title, description FROM film WHERE title ='" + pattern + "'";
+        return executeQuery(sql);
     }
 
-    Movie[] getMoviesByCategorie(){ // Category catObject
-        String sql = "SELECT film_category.film_id FROM film_category WHERE category.category_id = 'Action' JOIN category ON category.category_id=film_category.category_id";
+    public Movie[] getMoviesByCategory(Category category){ // Category catObject
+        String sql = String.format(
+                "SELECT film_category.film_id FROM film_category WHERE category.category_id = '%s' JOIN category ON category.category_id=film_category.category_id",
+                category.getCategory_id());
         return executeQuery(sql);
     }
 
@@ -102,10 +107,7 @@ public class DBModel {
         return movie;
     }
 
-    Movie[] getMoviesByName(String pattern) {
-            String sql = "SELECT title, description FROM film WHERE title ='" + pattern + "'";
-            return executeQuery(sql);
-    }
+
 
     private Movie[] transformToArray(List<Movie> movieList){
         Movie[] movieArr = new Movie[movieList.size()];

@@ -72,7 +72,6 @@ public class MainWindow extends Frame {
 		con.gridwidth = 2;
 		lm.setConstraints(_FILMLIST, con);
 		this.add(_FILMLIST);
-		System.out.println(getComponents().length);
 	}
 
 
@@ -101,6 +100,11 @@ public class MainWindow extends Frame {
 	public int getSelectedCategoryByID() {
 		return _CATEGORYBOX.getSelectedIndex();
 	}
+
+	/**
+	 * Dynamic change of categories displayed in the Choice/Combobox.
+	 * @param categories
+	 */
 	public void updateCategoryBox(java.util.List<String> categories) {
 		_CATEGORYBOX.removeAll();
 		_CATEGORYBOX.addItem("All");
@@ -108,9 +112,21 @@ public class MainWindow extends Frame {
 		_CATEGORYBOX.setVisible(true);
 		update(getGraphics());
 	}
+
+	/**
+	 * Removes all existing elements shown in the filmlist section and displays all elements given in {@code from}.
+	 * @param from List of films as String
+	 */
 	public void updateFilmList(java.util.List<String> from) {
 		_FILMLIST.removeAll();
 		from.forEach(_FILMLIST::add);
 		update(getGraphics());
+	}
+
+	public boolean isLengthActive(){
+		return this._LENGTHCHECK.getState();
+	}
+	public boolean isDateActive(){
+		return this._PUBLISHEDCHECK.getState();
 	}
 }
