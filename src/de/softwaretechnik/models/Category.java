@@ -5,6 +5,12 @@ public class Category {
     String name;
     String last_update;
 
+    public Category(){};
+    public Category(String categoryID, String name){
+        this.category_id = categoryID;
+        this.name = name;
+    }
+
     public String getCategory_id() {
         return category_id;
     }

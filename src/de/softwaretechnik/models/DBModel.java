@@ -1,6 +1,5 @@
 package de.softwaretechnik.models;
 
-import de.softwaretechnik.interfaces.DBInterface;
 import de.softwaretechnik.program.Program;
 
 import java.sql.*;
@@ -14,7 +13,7 @@ import java.util.Scanner;
     DB Modell als Singelton
  */
 
-public class DBModel implements DBInterface {
+public class DBModel {
 
     private static DBModel instance = new DBModel();
     private Connection connection;
@@ -44,9 +43,9 @@ public class DBModel implements DBInterface {
         return instance;
     }
     public Category[] getCinemaCategories(){
+        String sql = "SELECT category_id, name from category";
         return new Category[0]; // TODO SQL Query
     }
-    @Override
     public Movie[] getCinemaMovies(){
         String sql = "SELECT title FROM film";
         return executeQuery(sql);
